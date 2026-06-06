@@ -109,14 +109,9 @@ export default async function ProductPage({
             </div>
 
             {svc.in_stock > 0 ? (
-              <a
-                className="btn btn-primary btn-lg"
-                href={SITE.botUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link className="btn btn-primary btn-lg" href="/payment">
                 Купить — выдача за секунды
-              </a>
+              </Link>
             ) : (
               <button className="btn btn-ghost btn-lg" disabled>
                 Временно нет в наличии
@@ -124,9 +119,9 @@ export default async function ProductPage({
             )}
 
             <div className="callout" style={{ marginTop: 22 }}>
-              ⚡ Оплата сейчас доступна в Telegram-боте — код приходит
-              автоматически сразу после оплаты. Оплата прямо на сайте
-              подключается в ближайшее время.
+              ⚡ Моментальная выдача: код приходит автоматически сразу после
+              оплаты. Принимаем банковские карты и СБП, после оплаты придёт чек.
+              Подробнее — <Link href="/payment">Оплата и доставка</Link>.
             </div>
           </div>
         </div>

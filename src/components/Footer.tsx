@@ -21,6 +21,7 @@ export function Footer() {
             <Link href="/catalog">Каталог</Link>
             <Link href="/search">Поиск</Link>
             <Link href="/help">Как купить</Link>
+            <Link href="/payment">Оплата и доставка</Link>
             <a href={SITE.botUrl} target="_blank" rel="noopener noreferrer">
               Telegram-бот
             </a>

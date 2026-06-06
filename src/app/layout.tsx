@@ -3,6 +3,7 @@ import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CookieNotice } from "@/components/CookieNotice";
 import { SITE } from "@/lib/site";
 
 const display = Fraunces({
@@ -91,6 +92,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <CookieNotice />
       </body>
     </html>
   );

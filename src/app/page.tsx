@@ -36,14 +36,9 @@ export default async function HomePage() {
             <Link className="btn btn-primary btn-lg" href="/catalog">
               Открыть каталог
             </Link>
-            <a
-              className="btn btn-ghost btn-lg"
-              href={SITE.botUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Купить в Telegram
-            </a>
+            <Link className="btn btn-ghost btn-lg" href="/help">
+              Как это работает
+            </Link>
           </div>
           <div style={{ marginTop: 28 }}>
             <SearchBar />
