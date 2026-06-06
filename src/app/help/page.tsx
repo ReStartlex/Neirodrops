@@ -10,9 +10,41 @@ export const metadata: Metadata = {
   alternates: { canonical: "/help" },
 };
 
+const FAQ: { q: string; a: string }[] = [
+  {
+    q: "Как купить товар?",
+    a: "Выберите товар в каталоге или через поиск, нажмите «Купить» и оплатите заказ. Код выдаётся автоматически сразу после оплаты.",
+  },
+  {
+    q: "Как происходит оплата?",
+    a: "Оплата производится на сайте: банковской картой, через СБП или с внутреннего баланса, который можно пополнить, в том числе криптовалютой.",
+  },
+  {
+    q: "Когда я получу код?",
+    a: "Код приходит автоматически сразу после оплаты и сохраняется в истории заказов. В редких случаях — до 24 часов, иначе средства возвращаются.",
+  },
+  {
+    q: "Что делать, если код не сработал?",
+    a: "Напишите в поддержку с номером заказа — мы проверим код и заменим товар или вернём деньги согласно правилам возврата.",
+  },
+];
+
 export default function HelpPage() {
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
   return (
     <div className="container prose">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <h1>Как купить</h1>
       <p className="updated">Всё просто — три шага и код у тебя.</p>
 

@@ -50,8 +50,7 @@ export default async function ProductPage({
   const region = variantLabel(svc.category_name);
   const lowStock = svc.in_stock > 0 && svc.in_stock < 5;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const product = {
     "@type": "Product",
     name: svc.service_name,
     category: svc.category_name ?? undefined,
@@ -66,6 +65,27 @@ export default async function ProductPage({
           : "https://schema.org/OutOfStock",
       url: `${SITE.url}/product/${svc.ns_service_id}`,
     },
+  };
+  const crumbs = [
+    { name: "Главная", url: SITE.url },
+    { name: "Каталог", url: `${SITE.url}/catalog` },
+    ...(svc.group_slug
+      ? [{ name: svc.base_name ?? "Бренд", url: `${SITE.url}/catalog/${svc.group_slug}` }]
+      : []),
+    { name: svc.service_name, url: `${SITE.url}/product/${svc.ns_service_id}` },
+  ];
+  const breadcrumbList = {
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: c.url,
+    })),
+  };
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [product, breadcrumbList],
   };
 
   return (
