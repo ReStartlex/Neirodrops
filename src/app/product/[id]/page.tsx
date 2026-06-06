@@ -6,6 +6,7 @@ import { Monogram } from "@/components/Monogram";
 import { ProductCard } from "@/components/Cards";
 import { BuyButton } from "@/components/BuyButton";
 import { formatRub, variantLabel } from "@/lib/format";
+import { productIntro } from "@/lib/seoText";
 import { SITE } from "@/lib/site";
 import type { ServiceCard } from "@/lib/types";
 
@@ -144,6 +145,13 @@ export default async function ProductPage({
             </div>
           </div>
         </div>
+
+        <section style={{ marginTop: 40 }}>
+          <h2 style={{ fontSize: 22 }}>Описание</h2>
+          <p className="seo-text" style={{ marginTop: 0 }}>
+            {productIntro(svc)}
+          </p>
+        </section>
 
         {svc.similar.length > 0 && (
           <div style={{ marginTop: 48 }}>

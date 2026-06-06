@@ -472,6 +472,15 @@ a.card:hover {
   color: var(--ink-soft);
 }
 
+/* ── SEO text block ───────────────────────────────────────────── */
+.seo-text {
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 72ch;
+  margin: 32px 0 0;
+}
+
 /* ── account / balance / buy ──────────────────────────────────── */
 .account-grid {
   display: grid;

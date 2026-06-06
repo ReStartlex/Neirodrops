@@ -5,6 +5,7 @@ import { api, safe } from "@/lib/api";
 import { Monogram } from "@/components/Monogram";
 import { ProductCard } from "@/components/Cards";
 import { formatFrom, variantLabel } from "@/lib/format";
+import { groupIntro } from "@/lib/seoText";
 
 async function loadGroupName(slug: string): Promise<string | null> {
   const groups = await safe(api.groups(), []);
@@ -37,6 +38,14 @@ export default async function GroupPage({
   if (variants.length === 0) notFound();
 
   const baseName = (await loadGroupName(slug)) ?? "Каталог";
+  const cheapest = Math.min(
+    ...variants.map((v) => v.cheapest_price_kopecks),
+  );
+  const intro = groupIntro({
+    baseName,
+    variantsCount: variants.length,
+    cheapestKopecks: Number.isFinite(cheapest) ? cheapest : 0,
+  });
 
   // Один вариант → сразу показываем номиналы (нет смысла в лишнем клике).
   if (variants.length === 1) {
@@ -59,6 +68,7 @@ export default async function GroupPage({
               <ProductCard key={s.ns_service_id} service={s} />
             ))}
           </div>
+          <p className="seo-text">{intro}</p>
         </div>
       </section>
     );
@@ -98,6 +108,7 @@ export default async function GroupPage({
             </Link>
           ))}
         </div>
+        <p className="seo-text">{intro}</p>
       </div>
     </section>
   );

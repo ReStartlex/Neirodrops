@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { api, safe } from "@/lib/api";
 import { ProductCard } from "@/components/Cards";
+import { categoryIntro } from "@/lib/seoText";
 
 export async function generateMetadata({
   params,
@@ -66,6 +67,15 @@ export default async function CategoryPage({
             <ProductCard key={s.ns_service_id} service={s} />
           ))}
         </div>
+        {data.items.length > 0 && (
+          <p className="seo-text">
+            {categoryIntro({
+              categoryName: name,
+              count: data.total,
+              cheapestKopecks: data.items[0]?.rub_price_kopecks ?? 0,
+            })}
+          </p>
+        )}
         {totalPages > 1 && (
           <div
             style={{

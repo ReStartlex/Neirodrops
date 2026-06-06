@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { api, safe } from "@/lib/api";
 import { GroupCard } from "@/components/Cards";
 import { SearchBar } from "@/components/SearchBar";
+import { catalogIntro } from "@/lib/seoText";
 
 export const metadata: Metadata = {
   title: "Каталог подарочных карт и подписок",
@@ -34,6 +35,14 @@ export default async function CatalogPage() {
           </div>
         ) : (
           <div className="notice">Каталог временно обновляется. Загляни чуть позже.</div>
+        )}
+        {groups.length > 0 && (
+          <p className="seo-text">
+            {catalogIntro(
+              groups.reduce((s, g) => s + g.services_count, 0),
+              groups.length,
+            )}
+          </p>
         )}
       </div>
     </section>
