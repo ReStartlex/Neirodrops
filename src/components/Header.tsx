@@ -12,7 +12,9 @@ export function Header() {
         <nav className="nav">
           <Link href="/catalog">Каталог</Link>
           <Link href="/search">Поиск</Link>
-          <Link href="/help">Как купить</Link>
+          <Link className="hide-sm" href="/help">
+            Как купить
+          </Link>
         </nav>
         <span className="header-spacer" />
         <a

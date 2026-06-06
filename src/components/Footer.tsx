@@ -35,8 +35,8 @@ export function Footer() {
         </div>
         <div className="footer-bottom">
           <span>
-            © {new Date().getFullYear()} {SITE.brand} · {SITE.merchant.legalForm},
-            ИНН {SITE.merchant.inn}
+            © {new Date().getFullYear()} {SITE.brand} · {SITE.merchant.shortName} ·{" "}
+            {SITE.merchant.legalForm}, ИНН {SITE.merchant.inn}
           </span>
           <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
         </div>

@@ -40,14 +40,6 @@ export default function ContactsPage() {
         <br />
         E-mail: {SITE.email}
       </p>
-
-      {SITE.merchant.fullName === "—" && (
-        <div className="callout">
-          ⚠ Для публикации укажите ФИО самозанятого в{" "}
-          <code>src/lib/site.ts</code> (поле <code>merchant.fullName</code>) —
-          этого требуют оферта и подключение приёма платежей.
-        </div>
-      )}
     </div>
   );
 }

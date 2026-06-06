@@ -110,13 +110,6 @@ export default function OfertaPage() {
         <br />
         E-mail: {SITE.email}
       </p>
-
-      {SITE.merchant.fullName === "—" && (
-        <div className="callout">
-          ⚠ Перед публикацией заполните ФИО самозанятого в{" "}
-          <code>src/lib/site.ts</code>.
-        </div>
-      )}
     </div>
   );
 }

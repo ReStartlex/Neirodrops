@@ -480,12 +480,62 @@ a.card:hover {
   .footer-cols {
     grid-template-columns: 1fr 1fr;
   }
+  .header-inner {
+    gap: 16px;
+  }
   .nav {
+    gap: 16px;
+    font-size: 14px;
+  }
+  .hero {
+    padding: 48px 0 28px;
+  }
+  .section {
+    padding: 40px 0;
+  }
+}
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+  .container {
+    padding: 0 18px;
+  }
+  .brand {
+    font-size: 19px;
+  }
+  .nav .hide-sm {
     display: none;
+  }
+  .site-header .btn {
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+  .hero-cta .btn {
+    width: 100%;
+  }
+  .searchbar {
+    flex-wrap: wrap;
+    border-radius: 16px;
+    padding: 10px;
+  }
+  .searchbar input {
+    flex-basis: 100%;
+    padding: 6px 8px;
+  }
+  .searchbar .btn {
+    width: 100%;
+  }
+  .stats {
+    gap: 24px;
   }
 }
 @media (max-width: 560px) {
   .footer-cols {
     grid-template-columns: 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
   }
 }
