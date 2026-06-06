@@ -47,6 +47,10 @@ export function AccountClient() {
   const [amount, setAmount] = useState("500");
   const [topupMsg, setTopupMsg] = useState("");
   const [busy, setBusy] = useState(false);
+  // Баланс на момент создания счёта — чтобы кнопка «Проверить» поняла,
+  // что оплата зачислилась (баланс вырос).
+  const [topupBaseline, setTopupBaseline] = useState<number | null>(null);
+  const [checkMsg, setCheckMsg] = useState("");
 
   const loadOrders = useCallback(async () => {
     const r = await fetch("/api/orders?page=0&page_size=20");
@@ -123,10 +127,33 @@ export function AccountClient() {
       setTopupMsg(d.detail || "Не удалось создать счёт. Попробуйте позже.");
       return;
     }
+    setTopupBaseline(me?.balance_kopecks ?? 0);
+    setCheckMsg("");
     setTopupMsg(
-      "Счёт создан — оплатите в открывшемся окне. Баланс обновится автоматически.",
+      "Счёт создан — оплатите в открывшемся окне. После оплаты нажмите " +
+        "«Я оплатил — проверить» (или подождите — баланс обновится сам).",
     );
     window.open(d.pay_url, "_blank", "noopener");
+  }
+
+  async function checkPayment() {
+    setCheckMsg("Проверяю оплату…");
+    const r = await fetch("/api/me");
+    if (!r.ok) {
+      setCheckMsg("Не удалось проверить — попробуйте ещё раз через секунду.");
+      return;
+    }
+    const fresh = await r.json();
+    setMe(fresh);
+    if (topupBaseline !== null && fresh.balance_kopecks > topupBaseline) {
+      setCheckMsg(`✅ Оплата зачислена! Баланс: ${formatRub(fresh.balance_kopecks)}`);
+      setTopupBaseline(null);
+    } else {
+      setCheckMsg(
+        "Пока не вижу оплату — обычно зачисляется за 10–30 сек. " +
+          "Нажмите ещё раз чуть позже.",
+      );
+    }
   }
 
   if (me === undefined) return <div className="notice">Загрузка…</div>;
@@ -184,6 +211,18 @@ export function AccountClient() {
             <p className="muted" style={{ marginTop: 8 }}>
               {topupMsg}
             </p>
+          )}
+          {topupBaseline !== null && (
+            <div style={{ marginTop: 10 }}>
+              <button className="btn btn-ghost" onClick={checkPayment}>
+                Я оплатил — проверить
+              </button>
+              {checkMsg && (
+                <p className="muted" style={{ marginTop: 8 }}>
+                  {checkMsg}
+                </p>
+              )}
+            </div>
           )}
         </div>
 

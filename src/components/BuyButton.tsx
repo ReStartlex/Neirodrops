@@ -84,9 +84,17 @@ export function BuyButton({ serviceId }: { serviceId: number }) {
             </code>
           ))}
         </div>
-        <a className="btn btn-ghost" href="/account" style={{ marginTop: 10 }}>
-          История заказов
-        </a>
+        <p style={{ margin: "6px 0 0", fontSize: 13, opacity: 0.85 }}>
+          Сохраните коды — они также доступны в истории заказов.
+        </p>
+        <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+          <a className="btn btn-ghost" href="/account">
+            История заказов
+          </a>
+          <a className="btn btn-ghost" href="/catalog">
+            В каталог
+          </a>
+        </div>
       </div>
     );
   }
