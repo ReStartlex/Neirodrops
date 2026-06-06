@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { api, ApiError } from "@/lib/api";
 import { Monogram } from "@/components/Monogram";
 import { ProductCard } from "@/components/Cards";
+import { BuyButton } from "@/components/BuyButton";
 import { formatRub, variantLabel } from "@/lib/format";
 import { SITE } from "@/lib/site";
 import type { ServiceCard } from "@/lib/types";
@@ -109,9 +110,7 @@ export default async function ProductPage({
             </div>
 
             {svc.in_stock > 0 ? (
-              <Link className="btn btn-primary btn-lg" href="/payment">
-                Купить — выдача за секунды
-              </Link>
+              <BuyButton serviceId={svc.ns_service_id} />
             ) : (
               <button className="btn btn-ghost btn-lg" disabled>
                 Временно нет в наличии
@@ -119,9 +118,9 @@ export default async function ProductPage({
             )}
 
             <div className="callout" style={{ marginTop: 22 }}>
-              ⚡ Моментальная выдача: код приходит автоматически сразу после
-              оплаты. Принимаем банковские карты и СБП, после оплаты придёт чек.
-              Подробнее — <Link href="/payment">Оплата и доставка</Link>.
+              ⚡ Код приходит автоматически сразу после оплаты. Оплата на сайте
+              с внутреннего баланса — пополнить можно за минуту. Подробнее —{" "}
+              <Link href="/payment">Оплата и доставка</Link>.
             </div>
           </div>
         </div>

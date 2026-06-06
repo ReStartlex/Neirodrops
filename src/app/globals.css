@@ -472,6 +472,95 @@ a.card:hover {
   color: var(--ink-soft);
 }
 
+/* ── account / balance / buy ──────────────────────────────────── */
+.account-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 16px;
+}
+.balance-amount {
+  font-family: var(--font-display), serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--emerald);
+  margin: 4px 0 14px;
+}
+.topup {
+  display: flex;
+  gap: 10px;
+}
+.topup input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  outline: none;
+}
+.topup input:focus {
+  border-color: var(--emerald);
+}
+.topup .btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.orders {
+  display: grid;
+  gap: 12px;
+}
+.order-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.pins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.pin {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: ui-monospace, "SF Mono", "Roboto Mono", monospace;
+  font-size: 14px;
+  word-break: break-all;
+}
+.success-box {
+  display: flex;
+  flex-direction: column;
+  background: color-mix(in srgb, var(--ok) 12%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--ok) 40%, var(--line));
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  color: var(--ink);
+}
+.error-box {
+  background: color-mix(in srgb, var(--err, #c0392b) 12%, var(--card));
+  border: 1px solid color-mix(in srgb, #c0392b 40%, var(--line));
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  color: #9a3327;
+  font-size: 14px;
+}
+@media (max-width: 640px) {
+  .account-grid {
+    grid-template-columns: 1fr;
+  }
+  .topup {
+    flex-direction: column;
+  }
+  .topup .btn {
+    width: 100%;
+  }
+}
+
 /* ── cookie bar ───────────────────────────────────────────────── */
 .cookie-bar {
   position: fixed;

@@ -9,6 +9,10 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://neurodrop.ru",
   email: "dlyauchebitpgu@gmail.com",
   botUrl: process.env.NEXT_PUBLIC_SHOP_BOT_URL ?? "https://t.me/neirodropi_bot",
+  // Username бота БЕЗ @ — нужен Telegram Login Widget'у на /account.
+  // Должен совпадать с ботом, чей токен задан в shop_telegram_bot_token
+  // на бэкенде (им же проверяется подпись логина).
+  botUsername: process.env.NEXT_PUBLIC_SHOP_BOT_USERNAME ?? "neirodropi_bot",
 
   // Реквизиты продавца для оферты/контактов.
   merchant: {

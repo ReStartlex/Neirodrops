@@ -17,14 +17,9 @@ export function Header() {
           </Link>
         </nav>
         <span className="header-spacer" />
-        <a
-          className="btn btn-ghost"
-          href={SITE.botUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Link className="btn btn-ghost" href="/account">
           Войти
-        </a>
+        </Link>
       </div>
     </header>
   );
