@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { API_BASE, SESSION_COOKIE } from "@/lib/serverApi";
+import { SITE } from "@/lib/site";
 
 // Серверный коллбэк Telegram Login Widget (режим data-auth-url).
 // Telegram редиректит сюда с подписанными query-параметрами (id, hash,
@@ -7,7 +8,8 @@ import { API_BASE, SESSION_COOKIE } from "@/lib/serverApi";
 // возвращаем пользователя в кабинет (или в ?next).
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
-  const origin = req.nextUrl.origin;
+  // Публичный адрес, а не внутренний (за nginx req.origin = localhost:3001).
+  const origin = SITE.url;
 
   const nextRaw = sp.get("next") || "/account";
   const safeNext =

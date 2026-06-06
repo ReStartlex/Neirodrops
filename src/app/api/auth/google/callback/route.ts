@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { googleExchange, finishOAuth, safeNext, OAUTH_STATE_COOKIE } from "@/lib/oauth";
 import { SESSION_COOKIE } from "@/lib/serverApi";
+import { SITE } from "@/lib/site";
 
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
-  const origin = req.nextUrl.origin;
+  const origin = SITE.url;
   const code = sp.get("code");
   const state = sp.get("state");
   const [savedState, savedNext] = (

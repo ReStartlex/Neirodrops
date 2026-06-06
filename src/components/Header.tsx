@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE } from "@/lib/site";
+import { AuthButton } from "./AuthButton";
 
 export function Header() {
   return (
@@ -17,9 +18,7 @@ export function Header() {
           </Link>
         </nav>
         <span className="header-spacer" />
-        <Link className="btn btn-ghost" href="/account">
-          Войти
-        </Link>
+        <AuthButton />
       </div>
     </header>
   );

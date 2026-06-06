@@ -94,6 +94,7 @@ export function AccountClient() {
     await fetch("/api/auth/logout", { method: "POST" });
     setMe(null);
     setOrders([]);
+    window.dispatchEvent(new Event("nd-auth")); // обновить кнопку в шапке
   }
 
   async function topup() {
