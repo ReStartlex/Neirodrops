@@ -3,6 +3,13 @@
 import { useState } from "react";
 
 type Pin = Record<string, unknown> | string;
+type FieldDef = {
+  key: string;
+  name?: string;
+  type?: string;
+  required?: boolean;
+  enum?: string[] | null;
+};
 
 function renderPin(p: Pin): string {
   if (typeof p === "string") return p;
@@ -12,46 +19,16 @@ function renderPin(p: Pin): string {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export function BuyButton({ serviceId }: { serviceId: number }) {
-  const [state, setState] = useState<"idle" | "working" | "done" | "error">(
-    "idle",
-  );
+  const [state, setState] = useState<
+    "idle" | "working" | "fields" | "done" | "error"
+  >("idle");
   const [msg, setMsg] = useState("");
   const [pins, setPins] = useState<Pin[] | null>(null);
+  const [fields, setFields] = useState<FieldDef[]>([]);
+  const [fieldVals, setFieldVals] = useState<Record<string, string>>({});
 
-  async function buy() {
-    setState("working");
-    setMsg("Проверяем вход…");
-
-    const meR = await fetch("/api/me");
-    if (meR.status === 401) {
-      window.location.href = `/account?next=/product/${serviceId}`;
-      return;
-    }
-
-    setMsg("Оформляем заказ…");
-    const r = await fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ns_service_id: serviceId }),
-    });
-    const data = await r.json().catch(() => ({}));
-
-    if (data.outcome === "insufficient_balance") {
-      window.location.href = `/account?topup=1&next=/product/${serviceId}`;
-      return;
-    }
-    if (!r.ok || data.outcome !== "ok") {
-      setState("error");
-      setMsg(
-        data.outcome === "out_of_stock"
-          ? "Товар только что закончился."
-          : "Не удалось оформить заказ. Попробуйте ещё раз.",
-      );
-      return;
-    }
-
+  async function pollOrder(orderId: number) {
     setMsg("Оплачено с баланса, получаем код…");
-    const orderId = data.order_id as number;
     for (let i = 0; i < 40; i++) {
       await sleep(2000);
       const oR = await fetch(`/api/orders/${orderId}`);
@@ -71,6 +48,44 @@ export function BuyButton({ serviceId }: { serviceId: number }) {
     }
     setState("done");
     setMsg("Заказ оформлен. Код появится в Личном кабинете в течение пары минут.");
+  }
+
+  async function submit(values?: Record<string, string>) {
+    setState("working");
+    setMsg("Проверяем вход…");
+    const meR = await fetch("/api/me");
+    if (meR.status === 401) {
+      window.location.href = `/account?next=/product/${serviceId}`;
+      return;
+    }
+    setMsg("Оформляем заказ…");
+    const r = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ns_service_id: serviceId, field_values: values }),
+    });
+    const data = await r.json().catch(() => ({}));
+
+    if (data.outcome === "requires_fields") {
+      setFields((data.required_fields as FieldDef[]) ?? []);
+      setState("fields");
+      setMsg(data.field_error ?? "");
+      return;
+    }
+    if (data.outcome === "insufficient_balance") {
+      window.location.href = `/account?topup=1&next=/product/${serviceId}`;
+      return;
+    }
+    if (!r.ok || data.outcome !== "ok") {
+      setState("error");
+      setMsg(
+        data.outcome === "out_of_stock"
+          ? "Товар только что закончился."
+          : "Не удалось оформить заказ. Попробуйте ещё раз.",
+      );
+      return;
+    }
+    await pollOrder(data.order_id as number);
   }
 
   if (state === "done" && pins && pins.length > 0) {
@@ -99,11 +114,61 @@ export function BuyButton({ serviceId }: { serviceId: number }) {
     );
   }
 
+  if (state === "fields") {
+    return (
+      <div>
+        <p style={{ fontWeight: 600, margin: "0 0 10px" }}>
+          Для этого товара нужны данные:
+        </p>
+        {fields.map((f) => (
+          <div key={f.key} style={{ marginBottom: 10 }}>
+            <label style={{ display: "block", fontSize: 14, marginBottom: 4 }}>
+              {f.name || f.key}
+              {f.required !== false ? " *" : ""}
+            </label>
+            {f.enum && f.enum.length ? (
+              <select
+                className="field-input"
+                value={fieldVals[f.key] ?? ""}
+                onChange={(e) =>
+                  setFieldVals({ ...fieldVals, [f.key]: e.target.value })
+                }
+              >
+                <option value="">— выберите —</option>
+                {f.enum.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                className="field-input"
+                value={fieldVals[f.key] ?? ""}
+                onChange={(e) =>
+                  setFieldVals({ ...fieldVals, [f.key]: e.target.value })
+                }
+                placeholder={f.name || f.key}
+              />
+            )}
+          </div>
+        ))}
+        {msg && <p className="error-box">{msg}</p>}
+        <button
+          className="btn btn-primary btn-lg"
+          onClick={() => submit(fieldVals)}
+        >
+          Оплатить
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
       <button
         className="btn btn-primary btn-lg"
-        onClick={buy}
+        onClick={() => submit()}
         disabled={state === "working"}
       >
         {state === "working" ? "Обработка…" : "Купить — выдача за секунды"}
