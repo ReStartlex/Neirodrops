@@ -83,24 +83,6 @@ export function AccountClient() {
     return () => clearInterval(t);
   }, [me, loadMe]);
 
-  const onAuth = useCallback(
-    async (user: Record<string, unknown>) => {
-      const r = await fetch("/api/auth/telegram", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      });
-      if (r.ok) {
-        await loadMe();
-        const next = new URLSearchParams(window.location.search).get("next");
-        if (next) window.location.href = next;
-      } else {
-        alert("Не удалось войти. Попробуйте ещё раз.");
-      }
-    },
-    [loadMe],
-  );
-
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
     setMe(null);
@@ -159,6 +141,12 @@ export function AccountClient() {
   if (me === undefined) return <div className="notice">Загрузка…</div>;
 
   if (me === null) {
+    const params =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search)
+        : null;
+    const next = params?.get("next") ?? undefined;
+    const loginError = params?.get("login_error") === "1";
     return (
       <div
         className="card"
@@ -169,9 +157,17 @@ export function AccountClient() {
           Войдите через Telegram, чтобы пополнять баланс и покупать. Аккаунт
           общий с нашим ботом — баланс и история едины.
         </p>
+        {loginError && (
+          <div className="error-box" style={{ textAlign: "left" }}>
+            Не удалось войти через Telegram. Попробуйте ещё раз.
+          </div>
+        )}
         <div style={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
-          <TelegramLoginButton botUsername={SITE.botUsername} onAuth={onAuth} />
+          <TelegramLoginButton botUsername={SITE.botUsername} next={next} />
         </div>
+        <p className="muted" style={{ fontSize: 13, marginTop: 14 }}>
+          Скоро: вход по e-mail и через Google / Яндекс.
+        </p>
       </div>
     );
   }

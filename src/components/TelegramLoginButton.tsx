@@ -2,30 +2,27 @@
 
 import { useEffect, useRef } from "react";
 
-// Виджет входа Telegram. Требует, чтобы у бота в @BotFather был задан
-// домен (/setdomain → neurodrop.ru), иначе кнопка не отрендерится.
-type TgUser = Record<string, unknown>;
-
-declare global {
-  interface Window {
-    onNDTelegramAuth?: (user: TgUser) => void;
-  }
-}
-
+// Вход через Telegram в режиме РЕДИРЕКТА (data-auth-url), а не JS-колбэка:
+// колбэк (data-onauth) часто молча не срабатывает во встроенных браузерах
+// и в состоянии «уже авторизован». Редирект ведёт на серверный коллбэк
+// /api/auth/telegram/callback, который ставит сессию и возвращает в кабинет.
+// Требует, чтобы у бота в @BotFather был задан домен (/setdomain).
 export function TelegramLoginButton({
   botUsername,
-  onAuth,
+  next,
 }: {
   botUsername: string;
-  onAuth: (user: TgUser) => void;
+  next?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    window.onNDTelegramAuth = (user) => onAuth(user);
     const container = ref.current;
     if (!container) return;
     container.innerHTML = "";
+    const authUrl =
+      "/api/auth/telegram/callback" +
+      (next ? `?next=${encodeURIComponent(next)}` : "");
     const s = document.createElement("script");
     s.src = "https://telegram.org/js/telegram-widget.js?22";
     s.async = true;
@@ -33,12 +30,12 @@ export function TelegramLoginButton({
     s.setAttribute("data-size", "large");
     s.setAttribute("data-radius", "12");
     s.setAttribute("data-request-access", "write");
-    s.setAttribute("data-onauth", "onNDTelegramAuth(user)");
+    s.setAttribute("data-auth-url", authUrl);
     container.appendChild(s);
     return () => {
       container.innerHTML = "";
     };
-  }, [botUsername, onAuth]);
+  }, [botUsername, next]);
 
   return <div ref={ref} aria-label="Вход через Telegram" />;
 }
