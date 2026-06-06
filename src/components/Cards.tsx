@@ -20,8 +20,10 @@ export function GroupCard({ group }: { group: Group }) {
 
 export function ProductCard({ service }: { service: Service }) {
   const region = variantLabel(service.category_name);
+  const lowStock = service.in_stock > 0 && service.in_stock < 5;
   return (
     <Link className="card" href={`/product/${service.ns_service_id}`}>
+      {lowStock && <span className="card-badge">Осталось {service.in_stock}</span>}
       <Monogram name={service.base_name || service.service_name} />
       <div className="card-title">{service.service_name}</div>
       {region ? <div className="card-sub">{region}</div> : null}

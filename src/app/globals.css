@@ -301,6 +301,21 @@ a.card:hover {
   color: var(--terra);
   font-size: 17px;
 }
+.card {
+  position: relative;
+}
+.card-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: color-mix(in srgb, var(--terra) 14%, var(--card));
+  color: var(--terra);
+  border: 1px solid color-mix(in srgb, var(--terra) 35%, var(--line));
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
 
 /* ── product page ─────────────────────────────────────────────── */
 .product {
