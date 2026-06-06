@@ -172,8 +172,22 @@ export function AccountClient() {
         <div style={{ display: "flex", justifyContent: "center", marginTop: 8 }}>
           <TelegramLoginButton botUsername={SITE.botUsername} next={next} />
         </div>
+        <div style={{ display: "grid", gap: 8, marginTop: 14 }}>
+          <a
+            className="btn btn-ghost"
+            href={`/api/auth/google${next ? `?next=${encodeURIComponent(next)}` : ""}`}
+          >
+            Войти через Google
+          </a>
+          <a
+            className="btn btn-ghost"
+            href={`/api/auth/yandex${next ? `?next=${encodeURIComponent(next)}` : ""}`}
+          >
+            Войти через Яндекс
+          </a>
+        </div>
         <p className="muted" style={{ fontSize: 13, marginTop: 14 }}>
-          Скоро: вход по e-mail и через Google / Яндекс.
+          Вход по e-mail добавим позже.
         </p>
       </div>
     );
