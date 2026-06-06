@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CookieNotice } from "@/components/CookieNotice";
+import { TelegramMiniApp } from "@/components/TelegramMiniApp";
 import { SITE } from "@/lib/site";
 
 const display = Fraunces({
@@ -93,6 +94,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <CookieNotice />
+        <TelegramMiniApp />
       </body>
     </html>
   );

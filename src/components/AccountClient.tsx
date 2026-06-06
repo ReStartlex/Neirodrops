@@ -76,6 +76,13 @@ export function AccountClient() {
     loadMe();
   }, [loadMe]);
 
+  // Авто-вход в Telegram Mini App завершился — обновим профиль без перезагрузки.
+  useEffect(() => {
+    const h = () => loadMe();
+    window.addEventListener("nd-auth", h);
+    return () => window.removeEventListener("nd-auth", h);
+  }, [loadMe]);
+
   // Баланс зачисляется фоново после оплаты крипты — мягко поллим.
   useEffect(() => {
     if (!me) return;
