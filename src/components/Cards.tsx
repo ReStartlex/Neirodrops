@@ -9,7 +9,11 @@ export function GroupCard({ group }: { group: Group }) {
       ? `${group.variants_count} вариантов`
       : `${group.services_count} номиналов`;
   return (
-    <Link className="card" href={`/catalog/${group.group_slug}`}>
+    <Link
+      className="card"
+      href={`/catalog/${group.group_slug}`}
+      data-name={group.base_name.toLowerCase()}
+    >
       <Monogram name={group.base_name} />
       <div className="card-title">{group.base_name}</div>
       <div className="card-sub">{variants}</div>

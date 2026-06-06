@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { api, safe } from "@/lib/api";
 import { GroupCard } from "@/components/Cards";
-import { SearchBar } from "@/components/SearchBar";
+import { CatalogFilter } from "@/components/CatalogFilter";
 import { catalogIntro } from "@/lib/seoText";
 
 export const metadata: Metadata = {
@@ -24,15 +24,19 @@ export default async function CatalogPage() {
             <h2>Все бренды</h2>
           </div>
         </div>
-        <div style={{ marginBottom: 28 }}>
-          <SearchBar />
-        </div>
+        {groups.length > 0 && <CatalogFilter />}
         {groups.length > 0 ? (
-          <div className="grid grid-groups">
-            {groups.map((g) => (
-              <GroupCard key={g.group_slug} group={g} />
-            ))}
-          </div>
+          <>
+            <div id="catalog-grid" className="grid grid-groups">
+              {groups.map((g) => (
+                <GroupCard key={g.group_slug} group={g} />
+              ))}
+            </div>
+            <div id="catalog-empty" className="notice" style={{ display: "none" }}>
+              По фильтру ничего не найдено. Очисти поле или загляни в{" "}
+              <a href="/search">поиск</a>.
+            </div>
+          </>
         ) : (
           <div className="notice">Каталог временно обновляется. Загляни чуть позже.</div>
         )}
