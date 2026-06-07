@@ -363,6 +363,22 @@ a.card:hover {
   color: var(--warn);
 }
 
+/* ── trust row (product) ──────────────────────────────────────── */
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.trust-row span {
+  font-size: 13px;
+  color: var(--ink-soft);
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
 /* ── breadcrumbs ──────────────────────────────────────────────── */
 .crumbs {
   display: flex;

@@ -143,6 +143,12 @@ export default async function ProductPage({
               с внутреннего баланса — пополнить можно за минуту. Подробнее —{" "}
               <Link href="/payment">Оплата и доставка</Link>.
             </div>
+
+            <div className="trust-row">
+              <span>⚡ Моментальная выдача</span>
+              <span>🛟 Поддержка каждый день</span>
+              <span>↩ Возврат при проблеме</span>
+            </div>
           </div>
         </div>
 
