@@ -379,6 +379,63 @@ a.card:hover {
   padding: 6px 12px;
 }
 
+/* ── sort toggle ──────────────────────────────────────────────── */
+.sort-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.sort-toggle a {
+  font-size: 14px;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+}
+.sort-toggle a:hover {
+  color: var(--ink);
+}
+.sort-toggle a.sort-active {
+  background: var(--emerald);
+  color: #fff;
+  border-color: var(--emerald);
+}
+
+/* ── gentle entrance for grid cards ───────────────────────────── */
+@keyframes nd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.grid .card {
+  animation: nd-rise 0.35s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid .card {
+    animation: none;
+  }
+}
+
+/* ── final CTA band ───────────────────────────────────────────── */
+.cta-band {
+  text-align: center;
+  padding: 56px 0;
+}
+.cta-band h2 {
+  font-size: clamp(26px, 3.6vw, 40px);
+  margin: 0 0 10px;
+}
+.cta-band p {
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+}
+
 /* ── breadcrumbs ──────────────────────────────────────────────── */
 .crumbs {
   display: flex;

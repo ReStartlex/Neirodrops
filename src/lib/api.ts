@@ -38,9 +38,9 @@ export const api = {
     get<CategoryVariant[]>(
       `/api/public/catalog/groups/${encodeURIComponent(slug)}`,
     ),
-  categoryServices: (id: number, page = 0, size = 40) =>
+  categoryServices: (id: number, page = 0, size = 40, sort = "price_asc") =>
     get<ServicesPage>(
-      `/api/public/catalog/categories/${id}?page=${page}&page_size=${size}`,
+      `/api/public/catalog/categories/${id}?page=${page}&page_size=${size}&sort=${sort}`,
     ),
   service: (id: number) =>
     get<ServiceCard>(`/api/public/catalog/services/${id}`),

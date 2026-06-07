@@ -164,6 +164,17 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* final CTA */}
+      <section className="band">
+        <div className="container cta-band">
+          <h2>Готовы выбрать подарок себе или близким?</h2>
+          <p>Сотни брендов, честные цены и мгновенная выдача кода.</p>
+          <Link className="btn btn-primary btn-lg" href="/catalog">
+            Открыть каталог
+          </Link>
+        </div>
+      </section>
     </>
   );
 }
