@@ -550,6 +550,36 @@ a.card:hover {
   font-size: 15px;
 }
 
+/* ── loading screen ───────────────────────────────────────────── */
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 50vh;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+.spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  border-top-color: var(--emerald);
+  display: inline-block;
+  animation: nd-spin 0.8s linear infinite;
+}
+@keyframes nd-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}
+
 /* ── empty / notice ───────────────────────────────────────────── */
 .notice {
   background: var(--card);
