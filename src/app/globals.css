@@ -658,6 +658,55 @@ a.card:hover {
   display: grid;
   gap: 12px;
 }
+.btn-link-sm {
+  margin-top: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--emerald);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+.btn-link-sm:hover {
+  text-decoration: underline;
+}
+.ticket-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 360px;
+  overflow: auto;
+  padding: 4px 0;
+}
+.ticket-msg {
+  padding: 10px 12px;
+  border-radius: 12px;
+  max-width: 88%;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.ticket-msg.me {
+  align-self: flex-end;
+  background: var(--emerald);
+  color: #fff;
+}
+.ticket-msg.op {
+  align-self: flex-start;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+}
+.ticket-msg-who {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-bottom: 2px;
+}
+textarea.field-input {
+  font-family: inherit;
+  line-height: 1.5;
+}
 .order-row {
   flex-direction: row;
   align-items: center;

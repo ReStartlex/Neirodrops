@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { TelegramLoginButton } from "./TelegramLoginButton";
+import { TicketsPanel } from "./TicketsPanel";
 import { SITE } from "@/lib/site";
 import { formatRub } from "@/lib/format";
 
@@ -279,6 +280,21 @@ export function AccountClient() {
                     ))}
                   </div>
                 ) : null}
+                <button
+                  className="btn-link-sm"
+                  onClick={() =>
+                    window.dispatchEvent(
+                      new CustomEvent("nd-new-ticket", {
+                        detail: {
+                          orderId: o.id,
+                          subject: `Проблема с заказом #${o.id} — ${o.ns_service_name}`,
+                        },
+                      }),
+                    )
+                  }
+                >
+                  Сообщить о проблеме
+                </button>
               </div>
               <div className="card-price" style={{ paddingTop: 0 }}>
                 {formatRub(o.total_rub_kopecks)}
@@ -287,6 +303,8 @@ export function AccountClient() {
           ))}
         </div>
       )}
+
+      <TicketsPanel />
     </div>
   );
 }
