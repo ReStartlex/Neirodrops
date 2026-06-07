@@ -325,7 +325,11 @@ a.card:hover {
   padding: 40px 0;
 }
 .product-hero {
-  background: var(--paper-2);
+  background: radial-gradient(
+    120% 120% at 30% 20%,
+    color-mix(in srgb, var(--gold) 16%, var(--paper-2)) 0%,
+    var(--paper-2) 62%
+  );
   border: 1px solid var(--line);
   border-radius: var(--radius);
   min-height: 280px;
@@ -338,6 +342,7 @@ a.card:hover {
   height: 120px;
   border-radius: 28px;
   font-size: 44px;
+  box-shadow: 0 12px 32px rgba(42, 37, 33, 0.18);
 }
 .price-xl {
   font-family: var(--font-display), serif;
