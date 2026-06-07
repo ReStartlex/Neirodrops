@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { api, safe } from "@/lib/api";
 import { ProductCard } from "@/components/Cards";
 import { categoryIntro } from "@/lib/seoText";
+import { SITE } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -52,6 +53,25 @@ export default async function CategoryPage({
     ? Math.min(...data.items.map((i) => i.rub_price_kopecks))
     : 0;
   const pageHref = (p: number) => `/category/${id}?page=${p}&sort=${sort}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: data.items.map((s, i) => ({
+      "@type": "ListItem",
+      position: page * size + i + 1,
+      item: {
+        "@type": "Product",
+        name: s.service_name,
+        url: `${SITE.url}/product/${s.ns_service_id}`,
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "RUB",
+          price: (s.rub_price_kopecks / 100).toFixed(2),
+          availability: "https://schema.org/InStock",
+        },
+      },
+    })),
+  };
 
   return (
     <section className="section">
@@ -82,6 +102,12 @@ export default async function CategoryPage({
               Сначала дороже
             </Link>
           </div>
+        )}
+        {data.items.length > 0 && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
         )}
         <div className="grid grid-products">
           {data.items.map((s) => (
